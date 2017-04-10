@@ -1,4 +1,4 @@
 rootProject.name = 'bacnet-it-binding'
 
 include ':bacnet-it-stack'
-project(':bacnet-it-stack').projectDir = new File("../BACnetITStack")
+project(':bacnet-it-stack').projectDir = new File("../Stack")
