@@ -1,14 +1,27 @@
-# Binding
+import java.net.URI;
+import java.net.URISyntaxException;
+import ch.fhnw.bacnetit.binding.ws.incoming.WSConnectionServerFactory;
+import ch.fhnw.bacnetit.binding.ws.outgoing.WSConnectionClientFactory;
+import ch.fhnw.bacnetit.stack.application.BACnetEntityListener;
+import ch.fhnw.bacnetit.stack.application.NetworkPortObj;
+import ch.fhnw.bacnetit.stack.application.configuration.DiscoveryConfig;
+import ch.fhnw.bacnetit.stack.application.configuration.KeystoreConfig;
+import ch.fhnw.bacnetit.stack.application.transaction.Channel;
+import ch.fhnw.bacnetit.stack.application.transaction.ChannelListener;
+import ch.fhnw.bacnetit.stack.encoding.BACnetEID;
+import ch.fhnw.bacnetit.stack.encoding.TPDU;
+import ch.fhnw.bacnetit.stack.encoding.T_UnitDataIndication;
+import ch.fhnw.bacnetit.stack.encoding.T_UnitDataRequest;
+import ch.fhnw.bacnetit.stack.network.directory.DirectoryBindingType;
+import ch.fhnw.bacnetit.stack.network.directory.DirectoryService;
+import ch.fhnw.bacnetit.stack.network.transport.ConnectionFactory;
+import io.netty.channel.ChannelHandlerContext;
 
-## Example
-### Description
-Setup a BACnet/IT Stack using Websocket as Transport Binding.  
-This example doesn't use BACnet4j primitives, instead a WhoIsRequest is represented as a byte array.
+public class Setup {
 
-To build that example the Stack and WSBinding builds have to be in classpath.
-
-```java
-final ConnectionFactory connectionFactory = new ConnectionFactory();
+    public static void main(final String[] args) throws URISyntaxException {
+        
+        final ConnectionFactory connectionFactory = new ConnectionFactory();
 
         final int port = 8080;
         connectionFactory.addConnectionClient("ws",
@@ -89,7 +102,7 @@ final ConnectionFactory connectionFactory = new ConnectionFactory();
       
 
         final DiscoveryConfig ds = new DiscoveryConfig(
-                DirectoryBindingType.DNSSD.name(), "[IP]",
+                DirectoryBindingType.DNSSD.name(), "86.119.39.127",
                 "itb.bacnet.ch.", "bds._sub._bacnet._tcp.",
                 "dev._sub._bacnet._tcp.", "obj._sub._bacnet._tcp.", false);
 
@@ -113,4 +126,6 @@ final ConnectionFactory connectionFactory = new ConnectionFactory();
                 new URI("ws://localhost:8080"), tpdu, 1, true, null);
 
         channel1.doRequest(unitDataRequest);
-```
+    }
+
+}
