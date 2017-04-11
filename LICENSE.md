@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2017,University of Applied Sciences and Arts, Northwestern Switzerland FHNW, Institute of Mobile and Distributed Systems.
+Copyright (c) 2017, University of Applied Sciences and Arts, Northwestern Switzerland FHNW, Institute of Mobile and Distributed Systems.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
