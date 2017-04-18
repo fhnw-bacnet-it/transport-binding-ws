@@ -1,5 +1,24 @@
 # Binding
 
+##Purpose
+The following example includes the BACnet/IT stack component (Stack project) and the Websocket Transport Binding component (WSBinding project).  
+The example demonstrates how to setup and start a BACnet/IT stack on localhost with two simulated BACnet devices as communication partners.  
+After initialization an unconfirmed WHOIS-Request (represented as a byte stream) will be sent from one device to the other device.
+
+
+
+##Download
+1. Create an new empty directory "BACnetIT" and make it the current directory
+2. Download the source code of project Stack und project WSBinding  
+Stack project: ```git clone https://github.com/fhnw-BACnet-IT/Stack.git```  
+WSBinding project: ```git clone https://github.com/fhnw-BACnet-IT/WSBinding.git```
+
+##Build
+1. Make BACnetIT/WSBinding the current directory.
+2. Note that the project WSBinding has a dependency to project Stack, so ensure that both project are stored at the same level in the BACnetIT folder.
+3. Build/Download all the .jar files using Gradle Wrapper: ```./gradlew build```
+4. ...
+
 ## Example
 ### Description
 Setup a BACnet/IT Stack using Websocket as Transport Binding.  
@@ -114,3 +133,96 @@ final ConnectionFactory connectionFactory = new ConnectionFactory();
 
         channel1.doRequest(unitDataRequest);
 ```
+
+## How to implement a new Binding
+### Description
+As mentioned in the previous example, to add one or many transport binings an instance of the class ConnectionFactory is needed.
+```java
+ConnectionFactory connectionFactory = new ConnectionFactory();
+```
+
+A connection factory holds two Maps. One holds the available outgoing bindings (connectionClients) and the other holds the available incoming bindings (connectionServers).
+
+```java
+package ch.fhnw.bacnetit.stack.network.transport;
+public class ConnectionFactory {
+private final Map<String, ConnectionClientPipe> connectionClients = new HashMap<>();
+private final Map<String, ConnectionServerPipe> connectionServers = new HashMap<>();
+```
+
+To add an outgoing binding, an implementation of the interface ConnectionClientPipe is needed.  
+To add an incoming binding, an implemenation of the interface ConnectionServerPipe is needed.
+
+
+The interface ConnectionClientPipe declares one method.
+
+```java
+public interface ConnectionClientPipe {
+    public ConnectionClient provideConnectionClient(
+            InetSocketAddress remoteAddress);
+}
+```
+
+The interface ConnectionServerPipe declares two methods.
+
+```java
+public interface ConnectionServerPipe {
+    public ConnectionServer createConnectionServer();
+
+    public int getServerPort();
+}
+```
+In case of the Websocket Binding we implemented
+WSConnectionClientFactory implementing ConnectionClientPipe  
+and  
+WSConnectionServerFactory implementing ConnectionServerPipe
+
+```java
+public class WSConnectionClientFactory implements ConnectionClientPipe {
+
+    protected String secprotocol = null;
+
+    /**
+     * Sets secprotocol for HTTP authentication
+     *
+     * @param secprotocol
+     */
+    public void setSecprotocol(final String secprotocol) {
+        this.secprotocol = secprotocol;
+    }
+
+    /**
+     * Constructs a WebSocket connection to a specified address. At this point
+     * the connection is not initialized or bootstrapped.
+     */
+    @Override
+    public ConnectionClient provideConnectionClient(
+            final InetSocketAddress remoteAddress) {
+        return new WSConnection(remoteAddress, secprotocol);
+    }
+
+}
+```
+
+```java
+public class WSConnectionServerFactory implements ConnectionServerPipe {
+    protected final int port;
+
+    public WSConnectionServerFactory(final int serverPort) {
+        this.port = serverPort;
+    }
+
+    @Override
+    public ConnectionServer createConnectionServer() {
+        return new WSConnectionServer();
+    }
+
+    @Override
+    public int getServerPort() {
+        return port;
+    }
+
+}
+```
+
+
