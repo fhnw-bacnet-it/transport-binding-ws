@@ -5,6 +5,15 @@ apply plugin: 'jacoco'
 apply plugin: 'java-library-distribution'
 
 
+version = '0.1.0-SNAPSHOT'
+
+jar {
+    baseName = 'bacnet-it-wsbinding'
+    manifest {
+        attributes("Implementation-Title": "BACnet/IT Websocket Binding",
+                   "Implementation-Version": version)
+    }
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
