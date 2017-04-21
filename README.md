@@ -1,9 +1,9 @@
 # Binding
 
 ##Purpose
-The following example includes the BACnet/IT stack component (Stack project) and the Websocket Transport Binding component (WSBinding project).  
+The following example includes the BACnet/IT stack component (Stack project) and the Websocket-Transport-Binding component (WSBinding project).  
 The example demonstrates how to setup and start a BACnet/IT stack on localhost with two simulated BACnet devices as communication partners.  
-After initialization an unconfirmed WHOIS-Request (represented as a byte stream) will be sent from one device to the other device.
+After initialization of an unconfirmed WHOIS-Request (represented as a byte stream) it will be sent from one device to the other device.
 
 
 
@@ -16,15 +16,18 @@ WSBinding project: ```git clone https://github.com/fhnw-BACnet-IT/WSBinding.git`
 ##Build
 1. Make BACnetIT/WSBinding the current directory.
 2. Note that the project WSBinding has a dependency to project Stack, so ensure that both project are stored at the same level in the BACnetIT folder.
-3. Build/Download all the .jar files using Gradle Wrapper: ```./gradlew build```
-4. ...
+3. Build/Download all the .jar files using Gradle Wrapper: ```./gradlew build -x test```
+4. Find all needed jars under build/distributions
 
 ## Example
 ### Description
 Setup a BACnet/IT Stack using Websocket as Transport Binding.  
 This example doesn't use BACnet4j primitives, instead a WhoIsRequest is represented as a byte array.
 
-To build that example the Stack and WSBinding builds have to be in classpath.
+### Preparation
+Ensure the builded jars are in java class path.
+
+#### Setup stack on localhost at port 8080
 
 ```java
 final ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -141,7 +144,7 @@ As mentioned in the previous example, to add one or many transport binings an in
 ConnectionFactory connectionFactory = new ConnectionFactory();
 ```
 
-A connection factory holds two Maps. One holds the available outgoing bindings (connectionClients) and the other holds the available incoming bindings (connectionServers).
+A connection factory holds two maps. One holds the available outgoing bindings (connectionClients) and the other holds the available incoming bindings (connectionServers).
 
 ```java
 package ch.fhnw.bacnetit.stack.network.transport;
@@ -172,10 +175,10 @@ public interface ConnectionServerPipe {
     public int getServerPort();
 }
 ```
-In case of the Websocket Binding we implemented
-WSConnectionClientFactory implementing ConnectionClientPipe  
+In case of the Websocket Binding we implemented  
+- WSConnectionClientFactory implementing ConnectionClientPipe  
 and  
-WSConnectionServerFactory implementing ConnectionServerPipe
+- WSConnectionServerFactory implementing ConnectionServerPipe
 
 ```java
 public class WSConnectionClientFactory implements ConnectionClientPipe {
@@ -225,4 +228,16 @@ public class WSConnectionServerFactory implements ConnectionServerPipe {
 }
 ```
 
+Add the incoming Binding to the connectionFactory and define the scheme "ws"
 
+```java
+final int port = 8080;
+connectionFactory.addConnectionServer("ws",new WSConnectionServerFactory(port));
+```
+Add the outgoing Binding to the connectionFactory and define the scheme "ws"
+
+```java
+connectionFactory.addConnectionClient("ws",new WSConnectionClientFactory());
+```
+
+To add several bindings keep in mind to choose an other scheme. 
