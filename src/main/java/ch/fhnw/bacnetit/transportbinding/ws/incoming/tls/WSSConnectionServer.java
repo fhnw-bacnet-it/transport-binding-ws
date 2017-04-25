@@ -1,4 +1,4 @@
-package ch.fhnw.bacnetit.binding.ws.incoming.tls;
+package ch.fhnw.bacnetit.transportbinding.ws.incoming.tls;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -11,13 +11,13 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManager;
 
-import ch.fhnw.bacnetit.stack.application.auth.X509AccessControl;
-import ch.fhnw.bacnetit.stack.application.auth.http.HttpBasicAuthHandler;
-import ch.fhnw.bacnetit.stack.application.auth.http.HttpCorsHandler;
-import ch.fhnw.bacnetit.stack.application.configuration.HttpAuthConfig;
-import ch.fhnw.bacnetit.stack.application.configuration.KeystoreConfig;
-import ch.fhnw.bacnetit.stack.application.configuration.TruststoreConfig;
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionServer;
+import ch.fhnw.bacnetit.ase.application.auth.X509AccessControl;
+import ch.fhnw.bacnetit.ase.application.auth.http.HttpBasicAuthHandler;
+import ch.fhnw.bacnetit.ase.application.auth.http.HttpCorsHandler;
+import ch.fhnw.bacnetit.ase.application.configuration.HttpAuthConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.KeystoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.TruststoreConfig;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionServer;
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;

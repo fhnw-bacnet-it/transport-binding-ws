@@ -1,4 +1,4 @@
-package ch.fhnw.bacnetit.binding.ws.outgoing;
+package ch.fhnw.bacnetit.transportbinding.ws.outgoing;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import ch.fhnw.bacnetit.binding.ws.WSConnectionHandler;
-import ch.fhnw.bacnetit.stack.application.exception.StackInitializationException;
-import ch.fhnw.bacnetit.stack.network.transport.StatefulConnectionClient;
+import ch.fhnw.bacnetit.ase.application.exception.StackInitializationException;
+import ch.fhnw.bacnetit.ase.network.transport.StatefulConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.WSConnectionHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;

@@ -1,10 +1,10 @@
-package ch.fhnw.bacnetit.binding.ws;
+package ch.fhnw.bacnetit.transportbinding.ws;
 
-import ch.fhnw.bacnetit.stack.encoding.ControlMessage;
-import ch.fhnw.bacnetit.stack.encoding.NetworkPriority;
-import ch.fhnw.bacnetit.stack.encoding.TPDU;
-import ch.fhnw.bacnetit.stack.encoding.UnsignedInteger31;
-import ch.fhnw.bacnetit.stack.encoding._ByteQueue;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessage;
+import ch.fhnw.bacnetit.ase.encoding.NetworkPriority;
+import ch.fhnw.bacnetit.ase.encoding.TPDU;
+import ch.fhnw.bacnetit.ase.encoding.UnsignedInteger31;
+import ch.fhnw.bacnetit.ase.encoding._ByteQueue;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;

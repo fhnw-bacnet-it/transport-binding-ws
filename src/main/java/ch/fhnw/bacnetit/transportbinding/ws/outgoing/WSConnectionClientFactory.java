@@ -1,9 +1,9 @@
-package ch.fhnw.bacnetit.binding.ws.outgoing;
+package ch.fhnw.bacnetit.transportbinding.ws.outgoing;
 
 import java.net.InetSocketAddress;
 
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionClient;
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionClientPipe;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClientPipe;
 
 public class WSConnectionClientFactory implements ConnectionClientPipe {
 

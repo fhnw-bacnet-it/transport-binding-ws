@@ -1,6 +1,6 @@
-package ch.fhnw.bacnetit.binding.ws;
+package ch.fhnw.bacnetit.transportbinding.ws;
 
-import ch.fhnw.bacnetit.stack.encoding.ControlMessageInitEvent;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessageInitEvent;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;

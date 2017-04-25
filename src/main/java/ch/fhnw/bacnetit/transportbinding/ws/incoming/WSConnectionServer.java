@@ -1,12 +1,12 @@
-package ch.fhnw.bacnetit.binding.ws.incoming;
+package ch.fhnw.bacnetit.transportbinding.ws.incoming;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.fhnw.bacnetit.stack.application.auth.http.HttpBasicAuthHandler;
-import ch.fhnw.bacnetit.stack.application.auth.http.HttpCorsHandler;
-import ch.fhnw.bacnetit.stack.application.configuration.HttpAuthConfig;
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionServer;
+import ch.fhnw.bacnetit.ase.application.auth.http.HttpBasicAuthHandler;
+import ch.fhnw.bacnetit.ase.application.auth.http.HttpCorsHandler;
+import ch.fhnw.bacnetit.ase.application.configuration.HttpAuthConfig;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionServer;
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;

@@ -1,4 +1,4 @@
-package ch.fhnw.bacnetit.binding.ws.incoming;
+package ch.fhnw.bacnetit.transportbinding.ws.incoming.tls;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -6,16 +6,18 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Set;
 
-import ch.fhnw.bacnetit.binding.ws.ControlMessageHandler;
-import ch.fhnw.bacnetit.binding.ws.WSEncoder;
-import ch.fhnw.bacnetit.binding.ws.outgoing.WSConnection;
-import ch.fhnw.bacnetit.stack.application.auth.http.HttpBasicAuthHandler;
-import ch.fhnw.bacnetit.stack.application.configuration.HttpAuthConfig;
-import ch.fhnw.bacnetit.stack.application.transaction.ChannelEvent;
-import ch.fhnw.bacnetit.stack.encoding.ControlMessageInitEvent;
-import ch.fhnw.bacnetit.stack.encoding.TPDU;
-import ch.fhnw.bacnetit.stack.network.directory.DirectoryService;
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionClient;
+import ch.fhnw.bacnetit.ase.application.auth.http.HttpBasicAuthHandler;
+import ch.fhnw.bacnetit.ase.application.configuration.HttpAuthConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.KeystoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.TruststoreConfig;
+import ch.fhnw.bacnetit.ase.application.transaction.ChannelEvent;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessageInitEvent;
+import ch.fhnw.bacnetit.ase.encoding.TPDU;
+import ch.fhnw.bacnetit.ase.network.directory.DirectoryService;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.ControlMessageHandler;
+import ch.fhnw.bacnetit.transportbinding.ws.WSEncoder;
+import ch.fhnw.bacnetit.transportbinding.ws.outgoing.tls.WSSConnection;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -43,14 +45,22 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 /**
  * Handles handshakes and messages
  */
-public class WSConnectionServerHandler
+public class WSSConnectionServerHandler
         extends SimpleChannelInboundHandler<Object> {
     private static final InternalLogger LOG = InternalLoggerFactory
-            .getInstance(WSConnectionServerHandler.class);
+            .getInstance(WSSConnectionServerHandler.class);
     private static final String WEBSOCKET_PATH = "/websocket";
     private static WebSocketServerHandshaker handshaker;
     private String secProtocol = null;
     private HttpAuthConfig httpAuthConfig = null;
+    private final KeystoreConfig keystoreConfig;
+    private final TruststoreConfig truststoreConfig;
+
+    public WSSConnectionServerHandler(final KeystoreConfig keystoreConfig,
+            final TruststoreConfig truststoreConfig) {
+        this.keystoreConfig = keystoreConfig;
+        this.truststoreConfig = truststoreConfig;
+    }
 
     public void setHttpAuthConfig(final HttpAuthConfig config) {
         this.httpAuthConfig = config;
@@ -141,11 +151,11 @@ public class WSConnectionServerHandler
                             "WebSocket Server Handshake completed successfully");
                     // Adding the ControlMessageHandler
                     ctx.pipeline().addBefore(
-                            WSConnectionServerHandler.class.getSimpleName(),
+                            WSSConnectionServerHandler.class.getSimpleName(),
                             ControlMessageHandler.class.getSimpleName(),
                             new ControlMessageHandler());
                     ctx.pipeline().addAfter(
-                            WSConnectionServerHandler.class.getSimpleName(),
+                            WSSConnectionServerHandler.class.getSimpleName(),
                             WSEncoder.class.getSimpleName(), new WSEncoder());
                     ctx.pipeline().fireUserEventTriggered(
                             new ControlMessageInitEvent());
@@ -189,21 +199,22 @@ public class WSConnectionServerHandler
         final InetSocketAddress address = (InetSocketAddress) ctx.channel()
                 .remoteAddress();
 
-        final ConnectionClient connection = new WSConnection(address, null);
+        final ConnectionClient connection = new WSSConnection(address, null,
+                keystoreConfig, truststoreConfig);
         connection.setChannel(ctx.channel());
         ctx.pipeline().fireUserEventTriggered(connection);
         LOG.debug("Register a incoming WebSocketFrame in the local dns");
         try {
             LOG.debug(String.format("SourceEID %s, URI: URI: %S",
                     bmsg.getSourceEID(),
-                    new URI("ws:/" + ctx.channel().remoteAddress())));
+                    new URI("wss:/" + ctx.channel().remoteAddress())));
         } catch (final URISyntaxException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         try {
             DirectoryService.getInstance().register(bmsg.getSourceEID(),
-                    new URI("ws:/" + ctx.channel().remoteAddress()), false,
+                    new URI("wss:/" + ctx.channel().remoteAddress()), false,
                     true);
         } catch (final URISyntaxException e) {
             // TODO Auto-generated catch block
@@ -259,6 +270,7 @@ public class WSConnectionServerHandler
     private String getWebSocketLocation(final FullHttpRequest req) {
         final String location = req.headers().get(HttpHeaderNames.HOST)
                 + WEBSOCKET_PATH;
-        return "ws://" + location;
+        return "wss://" + location;
+
     }
 }

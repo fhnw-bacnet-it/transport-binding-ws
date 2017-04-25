@@ -1,4 +1,4 @@
-package ch.fhnw.bacnetit.binding.ws.outgoing.tls;
+package ch.fhnw.bacnetit.transportbinding.ws.outgoing.tls;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,13 +15,13 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManagerFactory;
 
-import ch.fhnw.bacnetit.binding.ws.WSConnectionHandler;
-import ch.fhnw.bacnetit.binding.ws.outgoing.WSConnection;
-import ch.fhnw.bacnetit.stack.application.ExceptionManager;
-import ch.fhnw.bacnetit.stack.application.configuration.KeystoreConfig;
-import ch.fhnw.bacnetit.stack.application.configuration.TruststoreConfig;
-import ch.fhnw.bacnetit.stack.application.exception.StackInitializationException;
-import ch.fhnw.bacnetit.stack.network.transport.StatefulConnectionClient;
+import ch.fhnw.bacnetit.ase.application.ExceptionManager;
+import ch.fhnw.bacnetit.ase.application.configuration.KeystoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.TruststoreConfig;
+import ch.fhnw.bacnetit.ase.application.exception.StackInitializationException;
+import ch.fhnw.bacnetit.ase.network.transport.StatefulConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.WSConnectionHandler;
+import ch.fhnw.bacnetit.transportbinding.ws.outgoing.WSConnection;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;

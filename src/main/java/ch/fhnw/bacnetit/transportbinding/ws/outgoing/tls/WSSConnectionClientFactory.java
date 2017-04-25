@@ -1,11 +1,11 @@
-package ch.fhnw.bacnetit.binding.ws.outgoing.tls;
+package ch.fhnw.bacnetit.transportbinding.ws.outgoing.tls;
 
 import java.net.InetSocketAddress;
 
-import ch.fhnw.bacnetit.stack.application.configuration.KeystoreConfig;
-import ch.fhnw.bacnetit.stack.application.configuration.TruststoreConfig;
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionClient;
-import ch.fhnw.bacnetit.stack.network.transport.ConnectionClientPipe;
+import ch.fhnw.bacnetit.ase.application.configuration.KeystoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.TruststoreConfig;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClientPipe;
 
 public class WSSConnectionClientFactory implements ConnectionClientPipe {
 

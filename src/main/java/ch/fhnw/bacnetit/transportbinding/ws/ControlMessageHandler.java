@@ -1,8 +1,8 @@
-package ch.fhnw.bacnetit.binding.ws;
+package ch.fhnw.bacnetit.transportbinding.ws;
 
-import ch.fhnw.bacnetit.stack.encoding.ControlMessage;
-import ch.fhnw.bacnetit.stack.encoding.ControlMessageReceivedEvent;
-import ch.fhnw.bacnetit.stack.encoding._ByteQueue;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessage;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessageReceivedEvent;
+import ch.fhnw.bacnetit.ase.encoding._ByteQueue;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

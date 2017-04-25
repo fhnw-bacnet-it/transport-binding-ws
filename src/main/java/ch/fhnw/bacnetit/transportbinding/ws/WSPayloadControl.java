@@ -1,6 +1,6 @@
-package ch.fhnw.bacnetit.binding.ws;
+package ch.fhnw.bacnetit.transportbinding.ws;
 
-import ch.fhnw.bacnetit.stack.encoding.UnsignedInteger31;
+import ch.fhnw.bacnetit.ase.encoding.UnsignedInteger31;
 
 public class WSPayloadControl {
 
