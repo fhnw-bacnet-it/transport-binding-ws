@@ -1,4 +1,4 @@
-rootProject.name = 'bacnet-it-transportwsbinding'
+rootProject.name = 'bacnet-it-transport-binding-ws'
 
-include ':bacnet-it-applicationserviceelement'
-project(':bacnet-it-applicationserviceelement').projectDir = new File("../ApplicationServiceElement")
+include ':bacnet-it-ase'
+project(':bacnet-it-ase').projectDir = new File("../ase")
