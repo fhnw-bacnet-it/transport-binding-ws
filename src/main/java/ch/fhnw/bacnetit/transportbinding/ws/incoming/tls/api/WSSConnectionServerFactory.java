@@ -1,9 +1,10 @@
-package ch.fhnw.bacnetit.transportbinding.ws.incoming.tls;
+package ch.fhnw.bacnetit.transportbinding.ws.incoming.tls.api;
 
-import ch.fhnw.bacnetit.ase.application.configuration.KeystoreConfig;
-import ch.fhnw.bacnetit.ase.application.configuration.TruststoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.api.KeystoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.api.TruststoreConfig;
 import ch.fhnw.bacnetit.ase.network.transport.ConnectionServer;
-import ch.fhnw.bacnetit.ase.network.transport.ConnectionServerPipe;
+import ch.fhnw.bacnetit.ase.network.transport.api.ConnectionServerPipe;
+import ch.fhnw.bacnetit.transportbinding.ws.incoming.tls.WSSConnectionServer;
 
 public class WSSConnectionServerFactory implements ConnectionServerPipe {
     protected final int port;

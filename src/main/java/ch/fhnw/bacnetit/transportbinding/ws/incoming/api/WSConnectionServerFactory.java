@@ -1,7 +1,8 @@
-package ch.fhnw.bacnetit.transportbinding.ws.incoming;
+package ch.fhnw.bacnetit.transportbinding.ws.incoming.api;
 
 import ch.fhnw.bacnetit.ase.network.transport.ConnectionServer;
-import ch.fhnw.bacnetit.ase.network.transport.ConnectionServerPipe;
+import ch.fhnw.bacnetit.ase.network.transport.api.ConnectionServerPipe;
+import ch.fhnw.bacnetit.transportbinding.ws.incoming.WSConnectionServer;
 
 public class WSConnectionServerFactory implements ConnectionServerPipe {
     protected final int port;

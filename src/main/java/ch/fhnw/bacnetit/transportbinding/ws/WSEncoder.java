@@ -2,9 +2,9 @@ package ch.fhnw.bacnetit.transportbinding.ws;
 
 import ch.fhnw.bacnetit.ase.encoding.ControlMessage;
 import ch.fhnw.bacnetit.ase.encoding.NetworkPriority;
-import ch.fhnw.bacnetit.ase.encoding.TPDU;
 import ch.fhnw.bacnetit.ase.encoding.UnsignedInteger31;
 import ch.fhnw.bacnetit.ase.encoding._ByteQueue;
+import ch.fhnw.bacnetit.ase.encoding.api.TPDU;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;

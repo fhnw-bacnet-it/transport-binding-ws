@@ -2,7 +2,7 @@ package ch.fhnw.bacnetit.transportbinding.ws;
 
 import java.util.Arrays;
 
-import ch.fhnw.bacnetit.ase.encoding.TPDU;
+import ch.fhnw.bacnetit.ase.encoding.api.TPDU;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

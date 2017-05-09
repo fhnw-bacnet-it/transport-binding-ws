@@ -16,8 +16,8 @@ import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManagerFactory;
 
 import ch.fhnw.bacnetit.ase.application.ExceptionManager;
-import ch.fhnw.bacnetit.ase.application.configuration.KeystoreConfig;
-import ch.fhnw.bacnetit.ase.application.configuration.TruststoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.api.KeystoreConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.api.TruststoreConfig;
 import ch.fhnw.bacnetit.ase.application.exception.StackInitializationException;
 import ch.fhnw.bacnetit.ase.network.transport.StatefulConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.WSConnectionHandler;

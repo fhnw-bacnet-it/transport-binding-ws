@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.Set;
 
 import ch.fhnw.bacnetit.ase.application.auth.http.HttpBasicAuthHandler;
-import ch.fhnw.bacnetit.ase.application.configuration.HttpAuthConfig;
+import ch.fhnw.bacnetit.ase.application.configuration.api.HttpAuthConfig;
 import ch.fhnw.bacnetit.ase.application.transaction.ChannelEvent;
 import ch.fhnw.bacnetit.ase.encoding.ControlMessageInitEvent;
-import ch.fhnw.bacnetit.ase.encoding.TPDU;
-import ch.fhnw.bacnetit.ase.network.directory.DirectoryService;
+import ch.fhnw.bacnetit.ase.encoding.api.TPDU;
+import ch.fhnw.bacnetit.ase.network.directory.api.DirectoryService;
 import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.ControlMessageHandler;
 import ch.fhnw.bacnetit.transportbinding.ws.WSEncoder;
