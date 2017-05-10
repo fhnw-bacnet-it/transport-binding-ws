@@ -194,9 +194,7 @@ public class WSSConnection implements StatefulConnectionClient {
     @Override
     public void initialize() {
         try {
-            System.out.println("initializing...");
             final ChannelFuture cf = webSocketClientHandler.handshakeFuture();
-            System.out.println("adding listener...");
             cf.addListener(new ChannelFutureListener() {
 
                 @Override
@@ -205,16 +203,14 @@ public class WSSConnection implements StatefulConnectionClient {
                     if (!future.isSuccess()) {
                         LOG.error(
                                 "Error during initialization of the websocket connection");
-                        System.out.println(
-                                "Error during initialization of the websocket connection");
+                        
                     } else {
-                        LOG.info("Websocket connection initialized");
-                        System.out.println("Websocket connection initialized");
+                        LOG.debug("Websocket connection initialized");
+                       
                     }
                 }
             });
             cf.await(1000, TimeUnit.MILLISECONDS);
-            System.out.println("initialized");
         } catch (final InterruptedException e) {
             throw new StackInitializationException(e.getMessage(), null);
         }

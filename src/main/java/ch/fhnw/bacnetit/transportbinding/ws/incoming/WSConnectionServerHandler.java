@@ -181,8 +181,6 @@ public class WSConnectionServerHandler
 
         // Translate here to BACnetMessage
         final TPDU bmsg = new TPDU(bytes);
-        System.out.println("does a invoke id exists no4?:");
-        System.out.println(bmsg.getInvokeId());
         LOG.debug("Successfully decoded new BACnetMessage: " + bmsg);
 
         // Fire event up to endpoint handler to signal a client connection
