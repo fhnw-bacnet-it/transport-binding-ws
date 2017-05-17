@@ -108,10 +108,10 @@ public class WSConnection implements StatefulConnectionClient {
                     if (!future.isSuccess()) {
                         LOG.error(
                                 "Error during initialization of the websocket connection");
-                        
+
                     } else {
                         LOG.debug("Websocket connection initialized");
-                        
+
                     }
                 }
             });
