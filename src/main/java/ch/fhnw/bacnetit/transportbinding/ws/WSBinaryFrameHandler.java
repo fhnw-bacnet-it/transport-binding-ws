@@ -33,8 +33,6 @@ public class WSBinaryFrameHandler
         // Translate here to BACnetMessage
         try {
             final TPDU bmsg = new TPDU(bytes);
-            System.out.println("does a invoke id exists no3?:");
-            System.out.println(bmsg.getInvokeId());
             LOG.debug("Successfully decoded new BACnetMessage: " + bmsg);
             ctx.fireChannelRead(bmsg);
         } catch (final Exception e) { // TODO decide on exception to throw on
