@@ -1,8 +1,15 @@
 package ch.fhnw.bacnetit.transportbinding.ws.incoming.tls;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -107,10 +114,27 @@ public class WSSConnectionServer implements ConnectionServer {
             handlers.add(serverHandler);
             handlers.add(new LoggingHandler(LogLevel.DEBUG));
 
-        } catch (final Exception e) {
+        } catch (final FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            System.err.println(e);
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final CertificateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final KeyStoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final UnrecoverableKeyException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final KeyManagementException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return handlers.toArray(new ChannelHandler[handlers.size()]);
     }
