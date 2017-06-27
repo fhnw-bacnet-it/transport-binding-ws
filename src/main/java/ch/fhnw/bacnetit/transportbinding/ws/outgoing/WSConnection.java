@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import ch.fhnw.bacnetit.ase.application.exception.StackInitializationException;
-import ch.fhnw.bacnetit.ase.network.transport.StatefulConnectionClient;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.WSConnectionHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -27,7 +27,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-public class WSConnection implements StatefulConnectionClient {
+public class WSConnection implements ConnectionClient {
     private static final InternalLogger LOG = InternalLoggerFactory
             .getInstance(WSConnection.class);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();

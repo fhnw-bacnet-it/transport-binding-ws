@@ -19,7 +19,7 @@ import ch.fhnw.bacnetit.ase.application.ExceptionManager;
 import ch.fhnw.bacnetit.ase.application.configuration.api.KeystoreConfig;
 import ch.fhnw.bacnetit.ase.application.configuration.api.TruststoreConfig;
 import ch.fhnw.bacnetit.ase.application.exception.StackInitializationException;
-import ch.fhnw.bacnetit.ase.network.transport.StatefulConnectionClient;
+import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.WSConnectionHandler;
 import ch.fhnw.bacnetit.transportbinding.ws.outgoing.WSConnection;
 import io.netty.buffer.ByteBufAllocator;
@@ -46,7 +46,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-public class WSSConnection implements StatefulConnectionClient {
+public class WSSConnection implements ConnectionClient {
     private static final InternalLogger LOG = InternalLoggerFactory
             .getInstance(WSConnection.class);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
