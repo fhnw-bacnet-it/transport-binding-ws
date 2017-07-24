@@ -4,8 +4,8 @@ import java.net.InetSocketAddress;
 
 import ch.fhnw.bacnetit.ase.application.configuration.api.KeystoreConfig;
 import ch.fhnw.bacnetit.ase.application.configuration.api.TruststoreConfig;
-import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
-import ch.fhnw.bacnetit.ase.network.transport.api.ConnectionClientPipe;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClientPipe;
 import ch.fhnw.bacnetit.transportbinding.ws.outgoing.tls.WSSConnection;
 
 public class WSSConnectionClientFactory implements ConnectionClientPipe {

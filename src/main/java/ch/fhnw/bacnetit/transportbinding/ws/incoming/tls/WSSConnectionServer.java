@@ -19,12 +19,12 @@ import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManager;
 
 import ch.fhnw.bacnetit.ase.application.auth.X509AccessControl;
-import ch.fhnw.bacnetit.ase.application.auth.http.HttpBasicAuthHandler;
-import ch.fhnw.bacnetit.ase.application.auth.http.HttpCorsHandler;
 import ch.fhnw.bacnetit.ase.application.configuration.api.HttpAuthConfig;
 import ch.fhnw.bacnetit.ase.application.configuration.api.KeystoreConfig;
 import ch.fhnw.bacnetit.ase.application.configuration.api.TruststoreConfig;
-import ch.fhnw.bacnetit.ase.network.transport.ConnectionServer;
+import ch.fhnw.bacnetit.transportbinding.auth.http.HttpBasicAuthHandler;
+import ch.fhnw.bacnetit.transportbinding.auth.http.HttpCorsHandler;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServer;
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;

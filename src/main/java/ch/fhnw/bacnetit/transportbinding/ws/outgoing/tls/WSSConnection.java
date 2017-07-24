@@ -19,7 +19,7 @@ import ch.fhnw.bacnetit.ase.application.ExceptionManager;
 import ch.fhnw.bacnetit.ase.application.configuration.api.KeystoreConfig;
 import ch.fhnw.bacnetit.ase.application.configuration.api.TruststoreConfig;
 import ch.fhnw.bacnetit.ase.application.exception.StackInitializationException;
-import ch.fhnw.bacnetit.ase.network.transport.ConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.WSConnectionHandler;
 import ch.fhnw.bacnetit.transportbinding.ws.outgoing.WSConnection;
 import io.netty.buffer.ByteBufAllocator;

@@ -1,7 +1,7 @@
 package ch.fhnw.bacnetit.transportbinding.ws.incoming.api;
 
-import ch.fhnw.bacnetit.ase.network.transport.ConnectionServer;
-import ch.fhnw.bacnetit.ase.network.transport.api.ConnectionServerPipe;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServer;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServerPipe;
 import ch.fhnw.bacnetit.transportbinding.ws.incoming.WSConnectionServer;
 
 public class WSConnectionServerFactory implements ConnectionServerPipe {
