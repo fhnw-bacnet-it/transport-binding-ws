@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.fhnw.bacnetit.transportbinding.ws;
+package ch.fhnw.bacnetit.transportbinding.api;
 
 /**
  * @author IMVS, FHNW

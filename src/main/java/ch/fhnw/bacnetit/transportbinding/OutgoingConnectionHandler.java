@@ -1,4 +1,4 @@
-package ch.fhnw.bacnetit.transportbinding.ws;
+package ch.fhnw.bacnetit.transportbinding;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -10,9 +10,12 @@ import com.google.common.base.Preconditions;
 
 import ch.fhnw.bacnetit.ase.encoding.TransportError;
 import ch.fhnw.bacnetit.ase.encoding.exception.StackCommunicationException;
-import ch.fhnw.bacnetit.ase.network.transport.util.ByteBufLogger;
-import ch.fhnw.bacnetit.ase.network.transport.util.MessageLogger;
-import ch.fhnw.bacnetit.ase.network.transport.util.PipelineLogger;
+import ch.fhnw.bacnetit.transportbinding.api.ConnectionFactory;
+import ch.fhnw.bacnetit.transportbinding.util.ByteBufLogger;
+import ch.fhnw.bacnetit.transportbinding.util.MessageLogger;
+import ch.fhnw.bacnetit.transportbinding.util.PipelineLogger;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.EndPointHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;

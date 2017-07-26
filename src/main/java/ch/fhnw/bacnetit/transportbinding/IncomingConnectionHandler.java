@@ -1,10 +1,14 @@
-package ch.fhnw.bacnetit.transportbinding.ws;
+package ch.fhnw.bacnetit.transportbinding;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import ch.fhnw.bacnetit.ase.network.transport.util.ByteBufLogger;
-import ch.fhnw.bacnetit.ase.network.transport.util.MessageLogger;
+import ch.fhnw.bacnetit.transportbinding.api.ConnectionFactory;
+import ch.fhnw.bacnetit.transportbinding.util.ByteBufLogger;
+import ch.fhnw.bacnetit.transportbinding.util.MessageLogger;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServer;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServerPipe;
+import ch.fhnw.bacnetit.transportbinding.ws.EndPointHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;

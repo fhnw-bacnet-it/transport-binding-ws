@@ -1,15 +1,22 @@
-package ch.fhnw.bacnetit.transportbinding.ws;
+package ch.fhnw.bacnetit.transportbinding.api;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
-import ch.fhnw.bacnetit.ase.application.service.ASEService;
+import java.util.List;
+import ch.fhnw.bacnetit.ase.application.service.api.TransportBindingService;
 import ch.fhnw.bacnetit.ase.application.transaction.ChannelEvent;
-import ch.fhnw.bacnetit.ase.application.transaction.api.TransportBindingService;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessage;
+import ch.fhnw.bacnetit.ase.encoding.ControlMessageInitEvent;
 import ch.fhnw.bacnetit.ase.encoding.ControlMessageReceivedEvent;
 import ch.fhnw.bacnetit.ase.encoding.UnsignedInteger31;
 import ch.fhnw.bacnetit.ase.encoding.api.BACnetEID;
 import ch.fhnw.bacnetit.ase.encoding.api.TPDU;
 import ch.fhnw.bacnetit.ase.encoding.api.T_UnitDataRequest;
+import ch.fhnw.bacnetit.ase.transportbinding.service.api.ASEService;
+import ch.fhnw.bacnetit.transportbinding.IncomingConnectionHandler;
+import ch.fhnw.bacnetit.transportbinding.OutgoingConnectionHandler;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.EndPointHandler;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
@@ -20,20 +27,14 @@ import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
 @Sharable
-public class BindingInitializer extends ChannelDuplexHandler implements EndPointHandler, ASEService,
-BindingConfiguration{
-    
+public class TransportBindingInitializer extends ChannelDuplexHandler
+        implements EndPointHandler, ASEService, BindingConfiguration {
+
     private static final InternalLogger LOG = InternalLoggerFactory
-            .getInstance(BindingInitializer.class);
+            .getInstance(TransportBindingInitializer.class);
     private OutgoingConnectionHandler outgoingConnectionHandler;
     private IncomingConnectionHandler incomingConnectionHandler;
     private TransportBindingService transportBindingService;
-
-    
-    @Override
-    public void setTransportBindingService(TransportBindingService transportBindingService){
-        this.transportBindingService = transportBindingService;
-    }
 
     @Override
     public void userEventTriggered(final ChannelHandlerContext ctx,
@@ -43,6 +44,7 @@ BindingConfiguration{
             // ControlMessage)
             // BacnetEids
             LOG.debug("Host received " + evt);
+            
             if (evt instanceof ControlMessageReceivedEvent) {
                 LOG.debug("Got a ControlMessageReceivedEvent");
                 for (final UnsignedInteger31 ui : ((ControlMessageReceivedEvent) evt)
@@ -55,43 +57,28 @@ BindingConfiguration{
                     // control message protocol is always websocket
                     final URI remoteUri = new URI(
                             "ws://" + uri[uri.length - 1]);
-//                    if (this.entityListener == null) {
-//                        LOG.error("The BACnetEntityListener isn't set");
-//                        return;
-//                    }
-//                    this.entityListener.onRemoteAdded(new BACnetEID(ui),
-//                            remoteUri);
-//                    LOG.debug(
-//                            "Pass received control message to BACnetEntityHandler");
+                   
+                    this.transportBindingService.onRemoteAdded(new BACnetEID(ui), remoteUri);
+                    LOG.debug("Pass received control message to BACnetEntityHandler");
 
                 }
             }
             // Event ControlMessageInitEvent: Prepare and send a ControlMessage
             // containing the ChannelListeners
-//            else if (evt instanceof ControlMessageInitEvent) { // TODO check if
-//                                                               // control
-//                                                               // messages are
-//                                                               // allowed
-//                LOG.debug("Got a ControlMessageInitEvent");
-//                // Create ControlMessage
-//
-//                final byte controlMessageType = ControlMessage.ADDREMOTE;
-//                final List<UnsignedInteger31> bacneteids = new LinkedList<UnsignedInteger31>();
-//                // Read out managed devices
-//                for (final ChannelListener cl : this.getChannelListeners()) {
-//                    bacneteids.add(
-//                            new UnsignedInteger31(cl.getEID().getIdentifier()));
-//                    LOG.debug(
-//                            "Got a ControlMessageInitEvent - Add to the sending list: "
-//                                    + cl.getEID().getIdentifierAsString());
-//                }
-//                // TODO Read out group controller ids
-//                final List<UnsignedInteger31> groupIds = null;
-//                final ControlMessage cm = new ControlMessage(controlMessageType,
-//                        bacneteids, groupIds);
-//
-//                ctx.writeAndFlush(cm);
-//            } 
+             else if (evt instanceof ControlMessageInitEvent) { 
+                 LOG.debug("Got a ControlMessageInitEvent");
+                 // Create ControlMessage
+                
+                 final byte controlMessageType = ControlMessage.ADDREMOTE;
+                 final List<UnsignedInteger31> bacneteids = this.transportBindingService.getChannelListeners();
+                 // TODO Read out group controller ids
+                 final List<UnsignedInteger31> groupIds = null;
+                 
+                 // Create a control message 
+                 final ControlMessage cm = new ControlMessage(controlMessageType,bacneteids, groupIds);
+                
+                 ctx.writeAndFlush(cm);
+            }
             else if (evt instanceof WriteTimeoutException) {
                 System.out.println("WriteTimeoutException");
             } else if (evt instanceof TPDU) {
@@ -175,8 +162,9 @@ BindingConfiguration{
 
             final TPDU tpdu = (TPDU) msg;
 
-            // TODO, next line is stop and fail            
-            transportBindingService.onIndication(tpdu, ctx.channel().remoteAddress());
+            // TODO, next line is stop and fail
+            transportBindingService.onIndication(tpdu,
+                    ctx.channel().remoteAddress());
         }
     }
 
@@ -185,31 +173,8 @@ BindingConfiguration{
             final Throwable cause) {
         // handleException(cause, null, null);
 
-//        new ExceptionManager().manageException(cause, null, null, this);
+        // new ExceptionManager().manageException(cause, null, null, this);
     }
-
-
-    public synchronized void doRequest(
-            final T_UnitDataRequest t_unitDataRequest) {
-
-//        // Pass outgoing request to the Transaction Manager, receive an invokeId
-//        // from transaction manager
-//        t_unitDataRequest.getData().setInvokeId(transactionManager
-//                .createOutboundTransaction(t_unitDataRequest));
-
-        LOG.debug("T_UnitData destination: "
-                + t_unitDataRequest.getDestinationAddress());
-        outgoingConnectionHandler
-                .connect(t_unitDataRequest.getDestinationAddress());
-        outgoingConnectionHandler.writeAndFlush(t_unitDataRequest.getData());
-    }
-
-
-    public void doCancel(final BACnetEID destination, final BACnetEID source) {
-        // TODO Auto-generated method stub
-    }
-
-   
 
     /*
      * private void handleError(ErrorClass errorClass, ErrorCode errorCode, TPDU
@@ -242,11 +207,57 @@ BindingConfiguration{
      * TransactionManagerExcpetion(e.getMessage()); } return request; }
      */
 
-   
-
     // public boolean isInitialized() {
     // return isInitialized;
     // }
+
+    @Override
+    public IncomingConnectionHandler getServerChannel() {
+        return this.incomingConnectionHandler;
+    }
+
+    public OutgoingConnectionHandler getClientChannel() {
+        return this.outgoingConnectionHandler;
+    }
+
+    public void waitUntilClosed() {
+        incomingConnectionHandler.waitUntilClosed();
+    }
+
+    /***********************************************************************
+     * Implementation interface ASEService
+     ***********************************************************************/
+
+    public void doCancel(final BACnetEID destination, final BACnetEID source) {
+        // TODO Auto-generated method stub
+    }
+
+    public synchronized void doRequest(
+            final T_UnitDataRequest t_unitDataRequest) {
+
+        // // Pass outgoing request to the Transaction Manager, receive an
+        // invokeId
+        // // from transaction manager
+        // t_unitDataRequest.getData().setInvokeId(transactionManager
+        // .createOutboundTransaction(t_unitDataRequest));
+
+        LOG.debug("T_UnitData destination: "
+                + t_unitDataRequest.getDestinationAddress());
+        outgoingConnectionHandler
+                .connect(t_unitDataRequest.getDestinationAddress());
+        outgoingConnectionHandler.writeAndFlush(t_unitDataRequest.getData());
+    }
+
+    @Override
+    public void setTransportBindingService(
+            TransportBindingService transportBindingService) {
+        this.transportBindingService = transportBindingService;
+    }
+
+    /***********************************************************************
+     * Implementation interface BindingConfiguration
+     ***********************************************************************/
+
     @Override
     public void initializeAndStart(ConnectionFactory connectionFactory) {
         // Check if at least one protocol is set
@@ -265,22 +276,7 @@ BindingConfiguration{
         incomingConnectionHandler.setLogging(false); // TODO move this somewhere
                                                      // convenient
         incomingConnectionHandler.initialize(this);
-       
+
     }
-
-    @Override
-    public IncomingConnectionHandler getServerChannel() {
-        return this.incomingConnectionHandler;
-    }
-
-    public OutgoingConnectionHandler getClientChannel() {
-        return this.outgoingConnectionHandler;
-    }
-
-    public void waitUntilClosed() {
-        incomingConnectionHandler.waitUntilClosed();
-    }
-
-
 
 }

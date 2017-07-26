@@ -1,10 +1,14 @@
-package ch.fhnw.bacnetit.transportbinding.ws;
+package ch.fhnw.bacnetit.transportbinding.api;
 
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClientPipe;
+import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServerPipe;
 
 
 public class ConnectionFactory {
