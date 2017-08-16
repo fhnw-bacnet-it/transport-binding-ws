@@ -235,12 +235,6 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
     public synchronized void doRequest(
             final T_UnitDataRequest t_unitDataRequest) {
 
-        // // Pass outgoing request to the Transaction Manager, receive an
-        // invokeId
-        // // from transaction manager
-        // t_unitDataRequest.getData().setInvokeId(transactionManager
-        // .createOutboundTransaction(t_unitDataRequest));
-
         LOG.debug("T_UnitData destination: "
                 + t_unitDataRequest.getDestinationAddress());
         outgoingConnectionHandler
@@ -279,4 +273,12 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
 
     }
 
+    /* (non-Javadoc)
+     * @see ch.fhnw.bacnetit.transportbinding.api.BindingConfiguration#shutdown()
+     */
+    @Override
+    public void shutdown() {
+        this.incomingConnectionHandler.shutdown();
+        
+    }
 }
