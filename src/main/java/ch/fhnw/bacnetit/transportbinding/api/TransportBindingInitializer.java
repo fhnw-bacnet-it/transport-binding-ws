@@ -3,6 +3,7 @@ package ch.fhnw.bacnetit.transportbinding.api;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.List;
+
 import ch.fhnw.bacnetit.ase.application.service.api.TransportBindingService;
 import ch.fhnw.bacnetit.ase.application.transaction.ChannelEvent;
 import ch.fhnw.bacnetit.ase.encoding.ControlMessage;
@@ -18,10 +19,10 @@ import ch.fhnw.bacnetit.transportbinding.OutgoingConnectionHandler;
 import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.EndPointHandler;
 import io.netty.channel.ChannelDuplexHandler;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.ChannelHandler.*;
 import io.netty.handler.timeout.WriteTimeoutException;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -44,7 +45,7 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
             // ControlMessage)
             // BacnetEids
             LOG.debug("Host received " + evt);
-            
+
             if (evt instanceof ControlMessageReceivedEvent) {
                 LOG.debug("Got a ControlMessageReceivedEvent");
                 for (final UnsignedInteger31 ui : ((ControlMessageReceivedEvent) evt)
@@ -57,29 +58,32 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
                     // control message protocol is always websocket
                     final URI remoteUri = new URI(
                             "ws://" + uri[uri.length - 1]);
-                   
-                    this.transportBindingService.onRemoteAdded(new BACnetEID(ui), remoteUri);
-                    LOG.debug("Pass received control message to BACnetEntityHandler");
+
+                    this.transportBindingService
+                            .onRemoteAdded(new BACnetEID(ui), remoteUri);
+                    LOG.debug(
+                            "Pass received control message to BACnetEntityHandler");
 
                 }
             }
             // Event ControlMessageInitEvent: Prepare and send a ControlMessage
             // containing the ChannelListeners
-             else if (evt instanceof ControlMessageInitEvent) { 
-                 LOG.debug("Got a ControlMessageInitEvent");
-                 // Create ControlMessage
-                
-                 final byte controlMessageType = ControlMessage.ADDREMOTE;
-                 final List<UnsignedInteger31> bacneteids = this.transportBindingService.getChannelListeners();
-                 // TODO Read out group controller ids
-                 final List<UnsignedInteger31> groupIds = null;
-                 
-                 // Create a control message 
-                 final ControlMessage cm = new ControlMessage(controlMessageType,bacneteids, groupIds);
-                
-                 ctx.writeAndFlush(cm);
-            }
-            else if (evt instanceof WriteTimeoutException) {
+            else if (evt instanceof ControlMessageInitEvent) {
+                LOG.debug("Got a ControlMessageInitEvent");
+                // Create ControlMessage
+
+                final byte controlMessageType = ControlMessage.ADDREMOTE;
+                final List<UnsignedInteger31> bacneteids = this.transportBindingService
+                        .getChannelListeners();
+                // TODO Read out group controller ids
+                final List<UnsignedInteger31> groupIds = null;
+
+                // Create a control message
+                final ControlMessage cm = new ControlMessage(controlMessageType,
+                        bacneteids, groupIds);
+
+                ctx.writeAndFlush(cm);
+            } else if (evt instanceof WriteTimeoutException) {
                 System.out.println("WriteTimeoutException");
             } else if (evt instanceof TPDU) {
                 /*
@@ -228,10 +232,12 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
      * Implementation interface ASEService
      ***********************************************************************/
 
+    @Override
     public void doCancel(final BACnetEID destination, final BACnetEID source) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public synchronized void doRequest(
             final T_UnitDataRequest t_unitDataRequest) {
 
@@ -244,7 +250,7 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
 
     @Override
     public void setTransportBindingService(
-            TransportBindingService transportBindingService) {
+            final TransportBindingService transportBindingService) {
         this.transportBindingService = transportBindingService;
     }
 
@@ -253,7 +259,7 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
      ***********************************************************************/
 
     @Override
-    public void initializeAndStart(ConnectionFactory connectionFactory) {
+    public void initializeAndStart(final ConnectionFactory connectionFactory) {
         // Check if at least one protocol is set
 
         // Use the same EventLoopGroup for all EventLoop
@@ -273,12 +279,15 @@ public class TransportBindingInitializer extends ChannelDuplexHandler
 
     }
 
-    /* (non-Javadoc)
-     * @see ch.fhnw.bacnetit.transportbinding.api.BindingConfiguration#shutdown()
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * ch.fhnw.bacnetit.transportbinding.api.BindingConfiguration#shutdown()
      */
     @Override
     public void shutdown() {
         this.incomingConnectionHandler.shutdown();
-        
+
     }
 }

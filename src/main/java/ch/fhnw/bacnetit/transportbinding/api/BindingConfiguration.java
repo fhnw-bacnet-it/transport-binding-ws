@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ch.fhnw.bacnetit.transportbinding.api;
 
@@ -9,5 +9,6 @@ package ch.fhnw.bacnetit.transportbinding.api;
  */
 public interface BindingConfiguration {
     public void initializeAndStart(ConnectionFactory connectionFactoy);
+
     public void shutdown();
 }

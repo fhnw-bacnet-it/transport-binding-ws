@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ch.fhnw.bacnetit.transportbinding.api.ConnectionFactory;
-import ch.fhnw.bacnetit.transportbinding.util.ByteBufLogger;
-import ch.fhnw.bacnetit.transportbinding.util.MessageLogger;
 import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServer;
 import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServerPipe;
 import ch.fhnw.bacnetit.transportbinding.ws.EndPointHandler;
@@ -71,13 +69,13 @@ public class IncomingConnectionHandler {
                     final ChannelHandler[] handlers = server
                             .getChannelHandlers();
                     if (doesLogging) {
-                        //p.addFirst(new ByteBufLogger());
+                        // p.addFirst(new ByteBufLogger());
                     }
                     for (final ChannelHandler handler : handlers) {
                         p.addLast(handler.getClass().getSimpleName(), handler);
                     }
                     if (doesLogging) {
-                        //p.addLast(new MessageLogger());
+                        // p.addLast(new MessageLogger());
                     }
 
                     // application layer

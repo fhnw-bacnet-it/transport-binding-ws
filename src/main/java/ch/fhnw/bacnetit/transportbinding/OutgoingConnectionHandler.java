@@ -11,9 +11,6 @@ import com.google.common.base.Preconditions;
 import ch.fhnw.bacnetit.ase.encoding.TransportError;
 import ch.fhnw.bacnetit.ase.encoding.exception.StackCommunicationException;
 import ch.fhnw.bacnetit.transportbinding.api.ConnectionFactory;
-import ch.fhnw.bacnetit.transportbinding.util.ByteBufLogger;
-import ch.fhnw.bacnetit.transportbinding.util.MessageLogger;
-import ch.fhnw.bacnetit.transportbinding.util.PipelineLogger;
 import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.EndPointHandler;
 import io.netty.bootstrap.Bootstrap;
@@ -44,7 +41,7 @@ public class OutgoingConnectionHandler {
     private final ConnectionFactory connectionFactory;
 
     private final Map<InetSocketAddress, ConnectionClientContext> connectionCache = new ConcurrentHashMap<>();
-    
+
     // Set open connection by default null
     protected ConnectionClient client = null;
 
@@ -78,15 +75,15 @@ public class OutgoingConnectionHandler {
                         final ChannelHandler[] handlers = client
                                 .getChannelHandlers();
                         if (doesLogging) {
-                            //p.addFirst(new ByteBufLogger());
+                            // p.addFirst(new ByteBufLogger());
                         }
-                        //p.addLast(new PipelineLogger()); // for debugging
+                        // p.addLast(new PipelineLogger()); // for debugging
                         for (final ChannelHandler handler : handlers) {
                             p.addLast(handler.getClass().getSimpleName(),
                                     handler);
                         }
                         if (doesLogging) {
-                            //p.addLast(new MessageLogger());
+                            // p.addLast(new MessageLogger());
                         }
 
                         // Add handler for the application layer

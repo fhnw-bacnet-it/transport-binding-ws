@@ -10,22 +10,21 @@ import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClient;
 import ch.fhnw.bacnetit.transportbinding.ws.ConnectionClientPipe;
 import ch.fhnw.bacnetit.transportbinding.ws.ConnectionServerPipe;
 
-
 public class ConnectionFactory {
     private final Map<String, ConnectionClientPipe> connectionClients = new HashMap<>();
     private final Map<String, ConnectionServerPipe> connectionServers = new HashMap<>();
-//    private static final InternalLogger LOG = InternalLoggerFactory
-//            .getInstance(ConnectionFactory.class);
+    // private static final InternalLogger LOG = InternalLoggerFactory
+    // .getInstance(ConnectionFactory.class);
 
     public void addConnectionClient(final String protocol,
             final ConnectionClientPipe connectionClientPipe) {
-//        LOG.debug("Added client pipe for " + protocol);
+        // LOG.debug("Added client pipe for " + protocol);
         connectionClients.put(protocol, connectionClientPipe);
     }
 
     public void addConnectionServer(final String protocol,
             final ConnectionServerPipe connectionServerPipe) {
-//        LOG.debug("Added server pipe for " + protocol);
+        // LOG.debug("Added server pipe for " + protocol);
         connectionServers.put(protocol, connectionServerPipe);
     }
 
@@ -39,10 +38,10 @@ public class ConnectionFactory {
 
     public ConnectionClient createConnection(final URI remoteUri)
             throws Exception {
-//        LOG.debug("Creating connection to " + remoteUri + " with scheme "
-//                + remoteUri.getScheme());
-//        LOG.debug("Found client factory: "
-//                + connectionClients.get(remoteUri.getScheme()));
+        // LOG.debug("Creating connection to " + remoteUri + " with scheme "
+        // + remoteUri.getScheme());
+        // LOG.debug("Found client factory: "
+        // + connectionClients.get(remoteUri.getScheme()));
         return connectionClients.get(remoteUri.getScheme())
                 .provideConnectionClient(new InetSocketAddress(
                         remoteUri.getHost(), remoteUri.getPort()));
